@@ -75,7 +75,7 @@
             );
         </sql>
         <rollback>
-            DROP TABLE transaction;
+            DROP TABLE transactions;
         </rollback>
     </changeSet>
 </databaseChangeLog>
