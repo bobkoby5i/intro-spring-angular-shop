@@ -8,17 +8,74 @@
 
     <changeSet  id="1"  author="bob">
         <sql>
-            CREATE TABLE user (
-                id         BIGINT NOT NULL AUTO_INCREMENT,
+            CREATE TABLE public.users (
+                id         SERIAL,
                 username   VARCHAR(255) NOT NULL,
                 password   VARCHAR(255) NOT NULL,
                 name       VARCHAR(255) NOT NULL,
                 role       VARCHAR(255) NOT NULL,
-                constraint PK_ID PRIMARY KEY(ID)
+                PRIMARY KEY(id)
             );
         </sql>
         <rollback>
-            DROP TABLE user;
+            DROP TABLE users;
+        </rollback>
+    </changeSet>
+    <changeSet id="2" author="sha">
+        <sql>
+            CREATE TABLE products (
+            id SERIAL ,
+            name VARCHAR(255) NOT NULL,
+            price decimal,
+            explanation VARCHAR(1000),
+            PRIMARY KEY (id)
+            );
+        </sql>
+        <rollback>
+            DROP TABLE products;
+        </rollback>
+    </changeSet>
+    <changeSet id="3" author="bob">
+        <sql>
+            INSERT INTO products (name, price, explanation) values('Product 1', 19.99,
+            'Product is so effective and has many attributes like X, Y, Z. Also, we can say about it...');
+            INSERT INTO products (name, price, explanation) values('Product 2', 10.99,
+            'Product is so effective and has many attributes like X, Y, Z. Also, we can say about it...');
+            INSERT INTO products (name, price, explanation) values('Product 3', 14.99,
+            'Product is so effective and has many attributes like X, Y, Z. Also, we can say about it...');
+            INSERT INTO products (name, price, explanation) values('Product 4', 15.99,
+            'Product is so effective and has many attributes like X, Y, Z. Also, we can say about it...');
+            INSERT INTO products (name, price, explanation) values('Product 5', 69.99,
+            'Product is so effective and has many attributes like X, Y, Z. Also, we can say about it...');
+            INSERT INTO products (name, price, explanation) values('Product 6', 59.99,
+            'Product is so effective and has many attributes like X, Y, Z. Also, we can say about it...');
+            INSERT INTO products (name, price, explanation) values('Product 7', 49.99,
+            'Product is so effective and has many attributes like X, Y, Z. Also, we can say about it...');
+            INSERT INTO products (name, price, explanation) values('Product 8', 39.99,
+            'Product is so effective and has many attributes like X, Y, Z. Also, we can say about it...');
+            INSERT INTO products (name, price, explanation) values('Product 9', 29.99,
+            'Product is so effective and has many attributes like X, Y, Z. Also, we can say about it...');
+            INSERT INTO products (name, price, explanation) values('Product 10', 9.99,
+            'Product is so effective and has many attributes like X, Y, Z. Also, we can say about it...');
+        </sql>
+        <rollback>
+            TRUNCATE TABLE products;
+        </rollback>
+    </changeSet>
+    <changeSet id="4" author="sha">
+        <sql>
+            CREATE TABLE transactions(
+            id SERIAL,
+            product_id integer NOT NULL,
+            user_id integer NOT NULL,
+            purchase_date timestamp  NOT NULL,
+            PRIMARY KEY (id),
+            FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            );
+        </sql>
+        <rollback>
+            DROP TABLE transaction;
         </rollback>
     </changeSet>
 </databaseChangeLog>
