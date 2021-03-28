@@ -20,7 +20,6 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionRepository.save(transaction);
     }
 
-
     @Override
     public Long numberOfTransactions(){
         return transactionRepository.count();
