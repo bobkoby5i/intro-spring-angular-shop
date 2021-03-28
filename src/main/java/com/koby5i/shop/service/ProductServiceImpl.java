@@ -10,10 +10,10 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ProductServiceImpl implements ProductsService {
+public class ProductServiceImpl implements ProductService {
 
     @Autowired
-    ProductRepository productRepository;
+    private ProductRepository productRepository;
 
     @Override
     public Product saveProduct(final Product product){
@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductsService {
     }
 
     @Override
-    public Long numberOfproducts(){
+    public Long numberOfProducts(){
         return productRepository.count();
     }
 

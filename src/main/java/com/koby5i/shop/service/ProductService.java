@@ -4,14 +4,14 @@ import com.koby5i.shop.model.Product;
 
 import java.util.List;
 
-public interface ProductsService {
+public interface ProductService {
     Product saveProduct(Product product);
 
     Product updateProduct(Product product);
 
     void deleteProduct(Long productId);
 
-    Long numberOfproducts();
+    Long numberOfProducts();
 
     List<Product> findAllProducts();
 }
