@@ -1,6 +1,8 @@
 package com.koby5i.shop.config;
 
 
+import com.koby5i.shop.jwt.JWTAuthorizationFilter;
+import com.koby5i.shop.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -20,11 +22,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-
 
     @Qualifier("userDetailsServiceImpl")
     @Autowired
@@ -32,6 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         //cross-origin-resource-sharing: localhost:8080 localhost:4200 (allow for it)
 
         http.cors().and()
@@ -52,6 +57,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // enable basic authenrication
                 .httpBasic().and()
                 .csrf().disable() ;
+
+        //jwt filter
+        http.addFilter(new JWTAuthorizationFilter(authenticationManager(),jwtTokenProvider));
     }
 
     @Override

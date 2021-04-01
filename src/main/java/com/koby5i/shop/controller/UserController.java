@@ -1,5 +1,6 @@
 package com.koby5i.shop.controller;
 
+import com.koby5i.shop.jwt.JwtTokenProvider;
 import com.koby5i.shop.model.Role;
 import com.koby5i.shop.model.Transaction;
 import com.koby5i.shop.model.User;
@@ -9,6 +10,8 @@ import com.koby5i.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -16,6 +19,10 @@ import java.time.LocalDateTime;
 
 @RestController
 public class UserController {
+
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     @Autowired
     private UserService userService;
@@ -40,11 +47,16 @@ public class UserController {
     @GetMapping("/api/user/login")
     public ResponseEntity<?> getUser(Principal principal) {
         //principal = httpservletrequest.getUserPrincipal();
-        if (principal == null || principal.getName() == null){
+        if (principal == null ){
             //logout will also use here so we should return OK httpstatus
             return  ResponseEntity.ok(principal);
         }
-        return new ResponseEntity<>(userService.findByUsername(principal.getName()),HttpStatus.OK);
+        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) principal;
+        User user = userService.findByUsername(authenticationToken.getName());
+        user.setToken(jwtTokenProvider.generateToken(authenticationToken));
+
+
+        return new ResponseEntity<>(user,HttpStatus.OK);
     }
 
     @PostMapping("/api/user/purchase")

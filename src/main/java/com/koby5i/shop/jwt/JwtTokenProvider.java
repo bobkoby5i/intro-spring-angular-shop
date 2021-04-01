@@ -63,7 +63,7 @@ public class JwtTokenProvider {
         if (claims.getExpiration().before(new Date())) {
             return false;
         }
-        return true; 
+        return true;
     }
     private String resolveToken (HttpServletRequest req){
         String bearerToken = req.getHeader(jwtHeaderString);
