@@ -26,9 +26,5 @@ public class Transaction {
     private LocalDateTime purchaseDate;
 
 
-    @Column (name = "explanation")
-    private String explanation;
-
-
 
 }
