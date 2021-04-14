@@ -7,6 +7,7 @@ import com.koby5i.shop.model.User;
 import com.koby5i.shop.service.ProductService;
 import com.koby5i.shop.service.TransactionService;
 import com.koby5i.shop.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 
 @RestController
+@Slf4j
 public class UserController {
 
 
@@ -47,6 +49,7 @@ public class UserController {
     @GetMapping("/api/user/login")
     public ResponseEntity<?> getUser(Principal principal) {
         //principal = httpservletrequest.getUserPrincipal();
+        log.info(String.format("getUser(%s)", principal));
         if (principal == null ){
             //logout will also use here so we should return OK httpstatus
             return  ResponseEntity.ok(principal);

@@ -28,9 +28,10 @@ public class JwtTokenProvider {
     private String jwtHeaderString;
 
     @Value("${app.jwt.expiration-in-ms}")
-    private String jwtExpirationInMs;
+    private Long  jwtExpirationInMs;
 
     public String generateToken(Authentication auth){
+        //Date date  = new Date(System.currentTimeMillis() +  Integer.valueOf(jwtExpirationInMs));
         String authorities = auth.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining());
