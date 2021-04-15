@@ -60,7 +60,7 @@ public class JwtTokenProvider {
         if (token == null){
             return false;
         }
-        Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJwt(token).getBody();
+        Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
         if (claims.getExpiration().before(new Date())) {
             return false;
         }
