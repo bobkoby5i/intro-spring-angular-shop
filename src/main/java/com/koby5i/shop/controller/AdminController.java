@@ -66,9 +66,9 @@ public class AdminController {
     }
 
     //This can be also @DeleteMapping.
-    @DeleteMapping("/api/admin/product-delete")
-    public ResponseEntity<?> deleteProduct(@RequestBody Product product){
-        productService.deleteProduct(product.getId());
+    @DeleteMapping("/api/admin/product-delete/{productId}")
+    public ResponseEntity<?> deleteProduct(@PathVariable("productId") Long productId){
+        productService.deleteProduct(productId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
